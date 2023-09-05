@@ -1,0 +1,11 @@
+.container {
+  width: 50%;
+  background-color: rgb(61, 42, 42);
+  position: absolute;
+  left: 25%;
+  top: 20%;
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: white;
+  box-shadow: 10px 10px 35px rgb(0, 0, 0);
+}
