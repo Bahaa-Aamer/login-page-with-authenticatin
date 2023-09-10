@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './form/form.component';
 import { UserInfoComponent } from './user-info/user-info.component';
-import { ManagedataService } from './managedata.service';
 import { AuthService } from './auth/auth.service';
 import { authguardGuard } from './auth/authguard.guard';
 
@@ -20,7 +19,7 @@ import { authguardGuard } from './auth/authguard.guard';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [ManagedataService, AuthService],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
