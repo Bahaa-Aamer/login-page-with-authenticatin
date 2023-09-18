@@ -1,5 +1,5 @@
 <!-- loaing elements -->
-<div class="dot-spinner" *ngIf="loader">
+<div class="dot-spinner" *ngIf="loader; else doneLoading">
   <div class="dot-spinner__dot"></div>
   <div class="dot-spinner__dot"></div>
   <div class="dot-spinner__dot"></div>
@@ -10,45 +10,48 @@
   <div class="dot-spinner__dot"></div>
 </div>
 <!-- ----------------- -->
-<div class="container">
-  <table>
-    <tr>
-      <th>Unit</th>
-      <th>Building</th>
-      <th>Firstparty</th>
-      <th>Secondparty</th>
-      <th>Invoices</th>
-      <th>Contract</th>
-    </tr>
-    <tr
-      *ngFor="
-        let item of data
-          | paginate
-            : {
-                id: 'info',
-                itemsPerPage: 10,
-                currentPage: page,
-                totalItems: total
-              }
-      "
+
+<ng-template #doneLoading>
+  <div class="container">
+    <table>
+      <tr>
+        <th>Unit</th>
+        <th>Building</th>
+        <th>Firstparty</th>
+        <th>Secondparty</th>
+        <th>Invoices</th>
+        <th>Contract</th>
+      </tr>
+      <tr
+        *ngFor="
+          let item of data
+            | paginate
+              : {
+                  id: 'info',
+                  itemsPerPage: 10,
+                  currentPage: page,
+                  totalItems: total
+                }
+        "
+      >
+        <td>{{ item?.unit?.name }}</td>
+        <td>{{ item?.unit?.building?.name }}</td>
+        <td>{{ item?.firstparty?.name }}</td>
+        <td>{{ item?.secondparty?.name }}</td>
+        <td>{{ item?.invoices?.length }}</td>
+        <td>{{ item?.contract_name }}</td>
+      </tr>
+    </table>
+    <pagination-controls
+      id="info"
+      (pageChange)="pageChanged($event)"
+      (pageBoundsCorrection)="pageChanged($event)"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+      screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page"
     >
-      <td>{{ item?.unit?.name }}</td>
-      <td>{{ item?.unit?.building?.name }}</td>
-      <td>{{ item?.firstparty?.name }}</td>
-      <td>{{ item?.secondparty?.name }}</td>
-      <td>{{ item?.invoices?.length }}</td>
-      <td>{{ item?.contract_name }}</td>
-    </tr>
-  </table>
-  <pagination-controls
-    id="info"
-    (pageChange)="pageChanged($event)"
-    (pageBoundsCorrection)="pageChanged($event)"
-    previousLabel="Previous"
-    nextLabel="Next"
-    screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page"
-    screenReaderCurrentLabel="You're on page"
-  >
-  </pagination-controls>
-</div>
+    </pagination-controls>
+  </div>
+</ng-template>
