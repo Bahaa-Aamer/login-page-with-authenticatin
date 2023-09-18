@@ -30,7 +30,6 @@ export class FormComponent implements OnInit, CanActivate {
     private http: HttpClient
   ) {}
   ngOnInit(): void {
-    console.log('hhgg');
     this.loader = true;
     this.form = new FormGroup({
       user_name: new FormControl(null, Validators.required),
