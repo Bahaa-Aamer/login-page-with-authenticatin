@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -9,14 +8,27 @@ import { Observable } from 'rxjs';
 })
 export class UserInfoComponent implements OnInit {
   data;
+  loader: boolean = true;
+  page: any = 1;
+  total: any;
 
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    const token = this.auth.getToken();
-
-    this.auth.loadData(token).subscribe((resp) => {
-      this.data = resp;
+    this.loadData();
+  }
+  loadData() {
+    const url = `page=${this.page}&data.per_page=1`;
+    this.auth.loadData(url).subscribe((resp) => {
+      this.data = resp.data.data;
+      this.page = resp?.data?.current_page;
+      this.total = resp?.data?.total;
+      this.loader = false;
     });
+  }
+  pageChanged(ev) {
+    console.log('ev', ev);
+    this.page = ev;
+    this.loadData();
   }
 }

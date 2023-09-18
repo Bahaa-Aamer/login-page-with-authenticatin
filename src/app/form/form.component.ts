@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +13,7 @@ import {
 } from '@angular/forms';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -15,21 +21,35 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit, CanActivate {
+  errorMessage;
   form: FormGroup;
-  constructor(private router: Router, public auth: AuthService) {}
+  loader: boolean;
+  constructor(
+    private router: Router,
+    public auth: AuthService,
+    private http: HttpClient
+  ) {}
   ngOnInit(): void {
+    console.log('hhgg');
+    this.loader = true;
     this.form = new FormGroup({
       user_name: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
+    this.loader = false;
   }
 
   login() {
-    this.auth.login(this.form.value).subscribe((data) => {
-      let token = data.token;
-      this.auth.saveToken(token);
-      this.router.navigate(['/info']);
-    });
+    this.auth.login(this.form.value).subscribe(
+      (data) => {
+        let token = data.token;
+        this.auth.saveToken(token);
+        this.router.navigate(['/info']);
+      },
+      (err) => {
+        this.errorMessage = true;
+      }
+    );
   }
 
   canActivate(): boolean {

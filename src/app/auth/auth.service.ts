@@ -33,15 +33,19 @@ export class AuthService implements OnInit {
     return localStorage.getItem('token');
   }
 
-  loadData(token): Observable<any> {
-    return this.http.get(
-      'https://backend-dev.kw.boyot.app/api/contracts/user/3503?page=1&data.per_page=10',
-      {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  loadData(slug: any): Observable<any> {
+    const token = this.getToken();
+    if (token) {
+      return this.http.get(
+        'https://backend-dev.ke.boyot.app/api/contracts/user/3503?' + slug,
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+    return null;
   }
 }
