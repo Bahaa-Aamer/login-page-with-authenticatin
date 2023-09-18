@@ -27,7 +27,6 @@ export class UserInfoComponent implements OnInit {
     });
   }
   pageChanged(ev) {
-    console.log('ev', ev);
     this.page = ev;
     this.loadData();
   }
